@@ -19,7 +19,7 @@ function statusUpdate(icon, text, event) {
 //  statusUpdate("icon16" , "Hello World!", event);
 //}
 
-function defaultStatus(event) {
+function basicICS(event) {
     const item = Office.context.mailbox.item;
     const subject = item.subject || "New Event";
     const now = new Date();
@@ -67,6 +67,9 @@ END:VCALENDAR`;
 
 
     statusUpdate("icon16", "...ICS file ready...!", event); //Notification
+}
+function defaultStatus(event) {
+    basicICS(event);
     event.completed();
 }
 
