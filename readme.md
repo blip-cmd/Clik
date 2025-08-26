@@ -1,12 +1,12 @@
-# OutlookWebAddIn1
+# Clik
 
-A lightweight Outlook add-in that automates email-to-calendar workflows via a secure local dev server.
+A smart Outlook add-in that converts emails to calendar events using AI-powered analysis and generates direct Outlook calendar links.
 
 ## 🔧 Setup
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/your-username/OutlookWebAddIn1.git
+   git clone https://github.com/your-username/Clik.git
    ```
 
 2. Install dev certificate with [mkcert](https://github.com/FiloSottile/mkcert):
@@ -16,19 +16,24 @@ A lightweight Outlook add-in that automates email-to-calendar workflows via a se
 
 3. Serve task pane over HTTPS:
    ```bash
-   npx http-server ./dist -S -C localhost.pem -K localhost-key.pem
+   node OutlookWebAddIn1Web/server.js
    ```
 
 4. Sideload the add-in in Outlook:
    - Open Outlook Web or Desktop
    - Go to **Settings > Manage Add-ins**
-   - Upload the manifest file from `/manifest/`
+   - Upload the manifest file from `/OutlookWebAddIn1Manifest/`
 
 ## ✅ Features
 
-- Secure task pane rendering via HTTPS
-- ICS generation for calendar automation
-- CSP-compliant asset loading
+- **AI-Powered Email Analysis**: Uses Google Gemini API to extract event details from email content
+- **Smart Calendar Links**: Generates direct Outlook calendar links with pre-filled event data
+- **Multiple Export Options**: 
+  - Generate calendar links for Outlook Web
+  - Download .ics files for any calendar app
+- **Clean Task Pane Interface**: User-friendly interface with copy/paste functionality
+- **Console Link Display**: Always shows full calendar link in browser console
+- **Secure HTTPS Serving**: CSP-compliant asset loading
 
 ## 📁 Structure
 
@@ -36,8 +41,8 @@ A lightweight Outlook add-in that automates email-to-calendar workflows via a se
 OutlookWebAddIn1/
 ├── .git/                   # Git version control
 ├── .vs/                    # Visual Studio settings
-├── OutlookWebAddIn1/       # Core add-in logic and assets
-├── OutlookWebAddIn1Web/    # Web project for task pane
+├── OutlookWebAddIn1/       # Core add-in logic and manifest
+├── OutlookWebAddIn1Web/    # Web project for task pane and functions
 ├── packages/               # NuGet packages
 ├── localhost.pem           # HTTPS certificate (mkcert)
 ├── localhost-key.pem       # HTTPS key (mkcert)
@@ -45,6 +50,14 @@ OutlookWebAddIn1/
 ├── .gitignore              # Git ignore rules
 └── readme.md               # Project documentation
 ```
+
+## 🚀 How to Use
+
+1. **Select an email** in Outlook that contains event information
+2. **Click "Calendar Link"** button in the Clik ribbon group
+3. **Task pane opens** with generated calendar link
+4. **Copy the link** or click "Open in Outlook" to create the event
+5. **Alternative**: Use "Download .ics" for traditional calendar file download
 
 ```
 
@@ -58,3 +71,4 @@ OutlookWebAddIn1/
 
 Built with ❤️ by Ryan — optimizing workflows, one click at a time.
 
+Link to Outlook hidden Add-in : 

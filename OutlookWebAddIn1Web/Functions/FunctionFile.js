@@ -102,39 +102,6 @@ async function defaultStatus(event) {
     }
 }
 
-async function webLinkWithPreview(event) {
-    try {
-        statusUpdate("icon16", "Generating Outlook web link...", event);
-        const ics = await aiICS();
-        console.log("Received ICS content for web link:", ics);
-        
-        if (!ics || ics.trim() === '') {
-            statusUpdate("icon16", "Cannot generate link - ICS is empty", event);
-            return;
-        }
-
-        // Parse ICS content to extract event details
-        const eventData = parseICSContent(ics);
-        console.log("Parsed event data:", eventData);
-        
-        // Create Outlook deep link
-        const outlookLink = createOutlookDeepLink(eventData);
-        console.log("Generated Outlook link:", outlookLink);
-        
-        // Display the link in notification and console
-        displayLink(outlookLink, event);
-        
-    } catch (error) {
-        console.error("Error in webLinkWithPreview:", error);
-        statusUpdate("icon16", `Error: ${error.message}`, event);
-    } finally {
-        // Always complete the event
-        if (event && typeof event.completed === 'function') {
-            event.completed();
-        }
-    }
-}
-
 function displayLink(url, event) {
     // Show full URL in console with clear formatting
     console.log("======================================");
@@ -511,7 +478,7 @@ function testOutlookRedirect() {
         dtstart: "20250125T140000Z", // Today at 2 PM UTC
         dtend: "20250125T150000Z",   // Today at 3 PM UTC
         location: "Test Location",
-        description: "This is a test event created by the Outlook add-in"
+        description: "This is a test event created by the Clik add-in"
     };
     
     console.log("Test event data:", testEventData);
@@ -532,4 +499,3 @@ function testOutlookRedirect() {
 
 // Maps the function name specified in the manifest to its JavaScript counterpart.
 Office.actions.associate("defaultStatus", defaultStatus);
-Office.actions.associate("webLinkWithPreview", webLinkWithPreview);

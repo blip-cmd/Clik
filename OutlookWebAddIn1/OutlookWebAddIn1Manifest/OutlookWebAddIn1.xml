@@ -13,11 +13,11 @@
   <Id>6951ffd3-66fa-4c65-8049-0c363cd2ad25</Id>
 
   <Version>1.0.0.0</Version>
-  <ProviderName>[Provider name]</ProviderName>
+  <ProviderName>Clik Team</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
-  <DisplayName DefaultValue="OutlookWebAddIn1" />
-  <Description DefaultValue="OutlookWebAddIn1"/>
+  <DisplayName DefaultValue="Clik" />
+  <Description DefaultValue="Clik - Smart Calendar Link Generator"/>
 
   <IconUrl DefaultValue="https://localhost:44300/Images/icon64.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:44300/Images/icon128.png"/>
@@ -99,21 +99,6 @@
                       <FunctionName>defaultStatus</FunctionName>
                     </Action>
                   </Control>
-                  <Control xsi:type="Button" id="msgReadWebLinkButton">
-                    <Label resid="webLinkButtonLabel"/>
-                    <Supertip>
-                      <Title resid="webLinkButtonLabel"/>
-                      <Description resid="webLinkButtonDescription"/>
-                    </Supertip>
-                    <Icon>
-                      <bt:Image size="16" resid="icon16"/>
-                      <bt:Image size="32" resid="icon32"/>
-                      <bt:Image size="80" resid="icon80"/>
-                    </Icon>
-                    <Action xsi:type="ExecuteFunction">
-                      <FunctionName>webLinkWithPreview</FunctionName>
-                    </Action>
-                  </Control>
                 </Group>
               </OfficeTab>
             </ExtensionPoint>
@@ -132,15 +117,13 @@
           <bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://localhost:44300/MessageRead.html"/>
         </bt:Urls>
         <bt:ShortStrings>
-          <bt:String id="groupLabel" DefaultValue="My Add-in Group"/>        
-          <bt:String id="taskPaneButtonLabel" DefaultValue="Show task pane"/>
-          <bt:String id="actionButtonLabel" DefaultValue="Run Function"/>
-          <bt:String id="webLinkButtonLabel" DefaultValue="Web Link with Event Preview"/>
+          <bt:String id="groupLabel" DefaultValue="Clik"/>        
+          <bt:String id="taskPaneButtonLabel" DefaultValue="Calendar Link"/>
+          <bt:String id="actionButtonLabel" DefaultValue="Download .ics"/>
         </bt:ShortStrings>
         <bt:LongStrings>
-          <bt:String id="taskPaneButtonDescription" DefaultValue="Opens a task pane."/>
-          <bt:String id="actionButtonDescription" DefaultValue="Click to run a sample function."/>
-          <bt:String id="webLinkButtonDescription" DefaultValue="Create a web link with event preview and open in Outlook Web."/>
+          <bt:String id="taskPaneButtonDescription" DefaultValue="Generate smart calendar link from email content"/>
+          <bt:String id="actionButtonDescription" DefaultValue="Download calendar event as .ics file"/>
         </bt:LongStrings>
       </Resources>
     </VersionOverrides>
