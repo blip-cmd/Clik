@@ -3,6 +3,12 @@ Office.onReady();
 
 // Helper function to add a status message to the notification bar.
 function statusUpdate(icon, text, event) {
+  // Check if Office.context.mailbox.item is available
+  if (!Office.context || !Office.context.mailbox || !Office.context.mailbox.item) {
+    console.log("Status update:", text);
+    return;
+  }
+  
   const details = {
     type: Office.MailboxEnums.ItemNotificationMessageType.InformationalMessage,
     icon: icon,
@@ -113,10 +119,14 @@ async function webLinkWithPreview(event) {
         // Try multiple approaches to open the link
         const success = tryOpenLink(outlookLink);
         
+        // Always show the link in a notification for easy access
+        const shortUrl = outlookLink.length > 100 ? outlookLink.substring(0, 97) + "..." : outlookLink;
+        statusUpdate("icon16", `Calendar link: ${shortUrl}`, event);
+        
         if (success) {
-            statusUpdate("icon16", "Outlook calendar opened in new tab!", event);
+            console.log("Link opened successfully and shown in notification");
         } else {
-            statusUpdate("icon16", "Link created - please check console for URL", event);
+            console.log("Link created and shown in notification - check console for full URL");
         }
         
     } catch (error) {
@@ -132,6 +142,28 @@ async function webLinkWithPreview(event) {
 
 function tryOpenLink(url) {
     console.log("Attempting to open URL:", url);
+    console.log("======================================");
+    console.log("OUTLOOK CALENDAR LINK:");
+    console.log(url);
+    console.log("======================================");
+    console.log("Copy the above URL to open the event in Outlook Calendar");
+
+    // Try to copy to clipboard (with better error handling)
+    try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(() => {
+                console.log("✓ URL copied to clipboard successfully");
+            }).catch((err) => {
+                console.log("Failed to copy to clipboard (document may not be focused):", err.message);
+                console.log("You can manually copy the URL from the console above");
+            });
+        } else {
+            console.log("Clipboard API not available - please copy the URL manually from above");
+        }
+    } catch (error) {
+        console.log("Clipboard access failed:", error.message);
+        console.log("You can manually copy the URL from the console above");
+    }
 
     try {
         // Method 1: Try window.open
@@ -173,17 +205,6 @@ function tryOpenLink(url) {
         console.error("location.assign method failed:", error);
     }
 
-    // If all methods fail, display the URL in an alert and copy to clipboard
-    alert("Could not open the Outlook link automatically. Please use this link to open the event:\n\n" + url);
-    try {
-        navigator.clipboard.writeText(url).then(() => {
-            console.log("URL copied to clipboard");
-        }).catch((err) => {
-            console.error("Failed to copy to clipboard:", err);
-        });
-    } catch (error) {
-        console.error("Clipboard access failed:", error);
-    }
     return false;
 }
 
