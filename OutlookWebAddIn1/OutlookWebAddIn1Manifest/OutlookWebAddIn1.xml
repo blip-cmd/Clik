@@ -99,6 +99,21 @@
                       <FunctionName>defaultStatus</FunctionName>
                     </Action>
                   </Control>
+                  <Control xsi:type="Button" id="msgReadWebLinkButton">
+                    <Label resid="webLinkButtonLabel"/>
+                    <Supertip>
+                      <Title resid="webLinkButtonLabel"/>
+                      <Description resid="webLinkButtonDescription"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="icon16"/>
+                      <bt:Image size="32" resid="icon32"/>
+                      <bt:Image size="80" resid="icon80"/>
+                    </Icon>
+                    <Action xsi:type="ExecuteFunction">
+                      <FunctionName>webLinkWithPreview</FunctionName>
+                    </Action>
+                  </Control>
                 </Group>
               </OfficeTab>
             </ExtensionPoint>
@@ -120,10 +135,12 @@
           <bt:String id="groupLabel" DefaultValue="My Add-in Group"/>        
           <bt:String id="taskPaneButtonLabel" DefaultValue="Show task pane"/>
           <bt:String id="actionButtonLabel" DefaultValue="Run Function"/>
+          <bt:String id="webLinkButtonLabel" DefaultValue="Web Link with Event Preview"/>
         </bt:ShortStrings>
         <bt:LongStrings>
           <bt:String id="taskPaneButtonDescription" DefaultValue="Opens a task pane."/>
           <bt:String id="actionButtonDescription" DefaultValue="Click to run a sample function."/>
+          <bt:String id="webLinkButtonDescription" DefaultValue="Create a web link with event preview and open in Outlook Web."/>
         </bt:LongStrings>
       </Resources>
     </VersionOverrides>
