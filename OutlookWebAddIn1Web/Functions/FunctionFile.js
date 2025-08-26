@@ -145,7 +145,59 @@ function displayLink(url, event) {
     
     // Show truncated URL in notification for easy access
     const shortUrl = url.length > 100 ? url.substring(0, 97) + "..." : url;
-    statusUpdate("icon16", `Calendar link: ${shortUrl}`, event);
+    statusUpdate("icon16", `Calendar link ready - opening popup...`, event);
+    
+    // Open a popup dialog to display the link
+    openLinkDialog(url);
+}
+
+function openLinkDialog(url) {
+    try {
+        // Try to use Office.context.ui.displayDialogAsync if available
+        if (Office.context && Office.context.ui && Office.context.ui.displayDialogAsync) {
+            // Use the HTML file with URL parameter
+            const dialogUrl = `https://localhost:44300/CalendarLinkDialog.html?url=${encodeURIComponent(url)}`;
+            
+            Office.context.ui.displayDialogAsync(dialogUrl, {
+                height: 60,
+                width: 50,
+                requireHTTPS: false
+            }, (result) => {
+                if (result.status === Office.AsyncResultStatus.Failed) {
+                    console.error("Failed to open dialog:", result.error);
+                    // Fallback to window.open
+                    fallbackPopup(url);
+                } else {
+                    console.log("Dialog opened successfully");
+                    // Store reference to dialog for potential communication
+                    window.calendarDialog = result.value;
+                }
+            });
+        } else {
+            // Fallback to regular popup
+            fallbackPopup(url);
+        }
+    } catch (error) {
+        console.error("Error opening dialog:", error);
+        fallbackPopup(url);
+    }
+}
+
+function fallbackPopup(url) {
+    try {
+        // Open the HTML file in a popup window
+        const dialogUrl = `https://localhost:44300/CalendarLinkDialog.html?url=${encodeURIComponent(url)}`;
+        const popup = window.open(dialogUrl, 'OutlookCalendarLink', 'width=650,height=500,scrollbars=yes,resizable=yes');
+        
+        if (popup) {
+            popup.focus();
+            console.log("Fallback popup opened successfully");
+        } else {
+            console.log("Popup blocked - link available in console and notification");
+        }
+    } catch (error) {
+        console.error("Fallback popup failed:", error);
+    }
 }
 
 function parseICSContent(ics) {
