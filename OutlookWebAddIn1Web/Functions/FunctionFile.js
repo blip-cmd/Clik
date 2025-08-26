@@ -143,38 +143,8 @@ function displayLink(url, event) {
     console.log("======================================");
     console.log("Copy the above URL to open the event in Outlook Calendar");
     
-    // Show link in notification with instruction
-    statusUpdate("icon16", "Calendar link ready! Check browser console to copy the link.", event);
-    
-    // Open task pane to display the link nicely
-    openTaskPane(url);
-}
-
-function openTaskPane(url) {
-    try {
-        if (Office.context && Office.context.ui && Office.context.ui.displayDialogAsync) {
-            // Create a simple task pane URL
-            const taskPaneUrl = `https://localhost:44300/CalendarLinkTaskPane.html?url=${encodeURIComponent(url)}`;
-            
-            Office.context.ui.displayDialogAsync(taskPaneUrl, {
-                height: 70,
-                width: 60,
-                requireHTTPS: false
-            }, (result) => {
-                if (result.status === Office.AsyncResultStatus.Failed) {
-                    console.error("Failed to open task pane:", result.error);
-                    console.log("Task pane failed - link is available in browser console above");
-                } else {
-                    console.log("Task pane opened successfully with calendar link");
-                }
-            });
-        } else {
-            console.log("Task pane not available - link is available in browser console above");
-        }
-    } catch (error) {
-        console.error("Error opening task pane:", error);
-        console.log("Task pane error - link is available in browser console above");
-    }
+    // Show link in notification
+    statusUpdate("icon16", "Calendar link ready! Check browser console and task pane for the link.", event);
 }
 
 function parseICSContent(ics) {
