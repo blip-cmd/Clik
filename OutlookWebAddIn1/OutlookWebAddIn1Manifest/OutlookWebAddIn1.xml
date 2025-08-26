@@ -22,12 +22,12 @@
   <IconUrl DefaultValue="https://localhost:44300/Images/icon64.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:44300/Images/icon128.png"/>
 
-  <SupportUrl DefaultValue="http://www.contoso.com" />
+  <SupportUrl DefaultValue="https://github.com/blip-cmd/OutlookWebAddIn1" />
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
   <AppDomains>
-    <AppDomain>AppDomain1</AppDomain>
-    <AppDomain>AppDomain2</AppDomain>
-    <AppDomain>AppDomain3</AppDomain>
+    <AppDomain>https://localhost:44300</AppDomain>
+    <AppDomain>https://outlook.live.com</AppDomain>
+    <AppDomain>https://outlook.office.com</AppDomain>
   </AppDomains>
   
   <Hosts>
