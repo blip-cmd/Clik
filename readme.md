@@ -16,13 +16,13 @@ A smart Outlook add-in that converts emails to calendar events using AI-powered 
 
 3. Serve task pane over HTTPS:
    ```bash
-   node OutlookWebAddIn1Web/server.js
+   node ClikWeb/server.js
    ```
 
 4. Sideload the add-in in Outlook:
    - Open Outlook Web or Desktop
    - Go to **Settings > Manage Add-ins**
-   - Upload the manifest file from `/OutlookWebAddIn1Manifest/`
+   - Upload the manifest file from `/ClikManifest/`
 
 ## ✅ Features
 
@@ -38,15 +38,15 @@ A smart Outlook add-in that converts emails to calendar events using AI-powered 
 ## 📁 Structure
 
 ```
-OutlookWebAddIn1/
+Clik/
 ├── .git/                   # Git version control
 ├── .vs/                    # Visual Studio settings
-├── OutlookWebAddIn1/       # Core add-in logic and manifest
-├── OutlookWebAddIn1Web/    # Web project for task pane and functions
+├── Clik/                   # Core add-in logic and manifest
+├── ClikWeb/                # Web project for task pane and functions
 ├── packages/               # NuGet packages
 ├── localhost.pem           # HTTPS certificate (mkcert)
 ├── localhost-key.pem       # HTTPS key (mkcert)
-├── OutlookWebAddIn1.sln    # Visual Studio solution file
+├── Clik.sln                # Visual Studio solution file
 ├── .gitignore              # Git ignore rules
 └── readme.md               # Project documentation
 ```

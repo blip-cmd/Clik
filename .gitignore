@@ -1,6 +1,5 @@
+# Visual Studio
 .vs/
-bin/
-obj/
 *.user
 *.suo
 *.cache
@@ -13,14 +12,41 @@ obj/
 *.vssscc
 *.swp
 *.tmp
-node_modules/
+
+# Build outputs
+bin/
+obj/
 out/
 dist/
+build/
+Release/
+Debug/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Environment files
 .env
 .env.*
-/packages/
 *.local.json
-*.code-workspace
+
+# IDEs and editors
 .idea/
 *.iml
+*.code-workspace
+
+# Packages
+/packages/
+
+# Merge conflict files
 *.orig
+
+# Others
+*.sublime-workspace
+*.sublime-project
+*.vscode/

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>Clik - Calendar Link Generator</title>
+    <script src="Scripts/jquery-3.6.0.js" type="text/javascript"></script>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+    <script src="MessageRead.js" type="text/javascript"></script>
+    <script src="Scripts/MessageBanner.js" type="text/javascript"></script>
+    <link href="Content/Button.css" rel="stylesheet" type="text/css" />
+    <link href="Content/MessageBanner.css" rel="stylesheet" type="text/css" />
+    <link href="MessageRead.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://res-1.cdn.office.net/files/fabric-cdn-prod_20230815.002/office-ui-fabric-core/11.1.0/css/fabric.min.css" />
+    
+    <style>
+        .calendar-section {
+            background: white;
+            border: 1px solid #edebe9;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .calendar-header {
+            color: #0078d4;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .calendar-icon {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        
+        .link-display {
+            background: #f3f2f1;
+            border: 1px solid #edebe9;
+            border-radius: 2px;
+            padding: 12px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+            max-height: 150px;
+            overflow-y: auto;
+            user-select: all;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .calendar-btn {
+            background: #0078d4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 140px;
+        }
+        
+        .calendar-btn:hover {
+            background: #106ebe;
+            color: white;
+        }
+        
+        .calendar-btn-secondary {
+            background: #605e5c;
+        }
+        
+        .calendar-btn-secondary:hover {
+            background: #484644;
+        }
+        
+        .instructions {
+            background: #e1f5fe;
+            border-left: 4px solid #0078d4;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .steps {
+            margin-top: 15px;
+        }
+        
+        .steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .steps li {
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        
+        .status-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 2px;
+            text-align: center;
+            font-size: 12px;
+            display: none;
+        }
+        
+        .status-success {
+            background: #dff6dd;
+            color: #107c10;
+            border: 1px solid #92c5f7;
+        }
+        
+        .status-error {
+            background: #fde7e9;
+            color: #a80000;
+            border: 1px solid #feb1b1;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #605e5c;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="ms-Fabric" dir="ltr">
+    <div id="content-header">
+        <div class="padding">
+            <p class="ms-font-xl ms-fontColor-themeDarkAlt ms-fontWeight-semilight">Clik - Calendar Link Generator</p>
+        </div>
+    </div>
+    
+    <div id="content-main" class="ms-Grid" dir="ltr">
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-sm12">
+                
+                <!-- Loading State -->
+                <div id="loading-section" class="loading">
+                    <div class="ms-Spinner ms-Spinner--large"></div>
+                    <p>Analyzing email and generating calendar link...</p>
+                </div>
+                
+                <!-- Calendar Link Section -->
+                <div id="calendar-section" class="calendar-section hidden">
+                    <div class="calendar-header">
+                        <span class="calendar-icon">📅</span>
+                        Your Outlook Calendar Link
+                    </div>
+                    
+                    <div class="instructions">
+                        <strong>Calendar link generated successfully!</strong> Use the link below to create a new event in Outlook Calendar with details from your email.
+                    </div>
+                    
+                    <div>
+                        <div class="ms-font-m ms-fontWeight-semibold" style="margin-bottom: 8px;">Calendar Link:</div>
+                        <div id="calendar-link" class="link-display" onclick="selectLinkText()">Link will appear here...</div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <a href="#" target="_blank" class="calendar-btn" id="open-outlook-btn" style="display:none;">
+                            🚀 Open in Outlook
+                        </a>
+                        <button onclick="copyCalendarLink()" class="calendar-btn calendar-btn-secondary">
+                            📋 Copy Link
+                        </button>
+                        <button onclick="generateNewLink()" class="calendar-btn calendar-btn-secondary">
+                            🔄 Generate New
+                        </button>
+                    </div>
+                    
+                    <div id="status-message" class="status-message"></div>
+                    
+                    <div class="steps">
+                        <div class="ms-font-m ms-fontWeight-semibold" style="margin-bottom: 8px;">How to use:</div>
+                        <ol>
+                            <li><strong>Click "Open in Outlook"</strong> to go directly to Outlook Calendar</li>
+                            <li><strong>Or copy the link</strong> and paste it in a new browser tab</li>
+                            <li><strong>Or click the link above</strong> to select it and copy manually</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <!-- Error Section -->
+                <div id="error-section" class="calendar-section hidden">
+                    <div class="calendar-header">
+                        <span style="margin-right: 8px;">⚠️</span>
+                        Error Generating Link
+                    </div>
+                    <div id="error-message" class="status-message status-error" style="display: block;">
+                        Unable to generate calendar link. Please try again.
+                    </div>
+                    <div class="button-group">
+                        <button onclick="generateNewLink()" class="calendar-btn">
+                            🔄 Try Again
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="MessageBanner" style="position:absolute;bottom: 0;">
+        <div class="MessageBanner-content">
+            <div class="MessageBanner-text">
+                <div class="MessageBanner-clipper">
+                    <div class="ms-font-m-plus ms-fontWeight-semibold" id="notificationHeader"></div>
+                    <div class="ms-font-m ms-fontWeight-semilight" id="notificationBody"></div>
+                </div>
+            </div>
+            <button class="MessageBanner-expand" style="display:none"><i class="ms-Icon ms-Icon--chevronsDown"></i> </button>
+            <div class="MessageBanner-action"></div>
+        </div>
+        <button class="MessageBanner-close"> <i class="ms-Icon ms-Icon--ChromeClose"></i> </button>
+    </div>
+</body>
+</html>
