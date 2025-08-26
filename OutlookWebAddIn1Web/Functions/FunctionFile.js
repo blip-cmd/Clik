@@ -1,8 +1,13 @@
 ﻿// Loads the Office.js library.
 Office.onReady();
 
-// Helper function to add a status message to the notification bar.
-function statusUpdate(icon, text, event) {
+// Helper function to add a status message to the notificati        // Create Outlook deep link
+        const outlookLink = createOutlookDeepLink(eventData);
+        console.log("Generated Outlook link:", outlookLink);
+        
+        // Display the link in notification and console
+        displayLink(outlookLink, event);
+        function statusUpdate(icon, text, event) {
   // Check if Office.context.mailbox.item is available
   if (!Office.context || !Office.context.mailbox || !Office.context.mailbox.item) {
     console.log("Status update:", text);
@@ -116,18 +121,8 @@ async function webLinkWithPreview(event) {
         const outlookLink = createOutlookDeepLink(eventData);
         console.log("Generated Outlook link:", outlookLink);
         
-        // Try multiple approaches to open the link
-        const success = tryOpenLink(outlookLink);
-        
-        // Always show the link in a notification for easy access
-        const shortUrl = outlookLink.length > 100 ? outlookLink.substring(0, 97) + "..." : outlookLink;
-        statusUpdate("icon16", `Calendar link: ${shortUrl}`, event);
-        
-        if (success) {
-            console.log("Link opened successfully and shown in notification");
-        } else {
-            console.log("Link created and shown in notification - check console for full URL");
-        }
+        // Display the link in notification and console
+        displayLink(outlookLink, event);
         
     } catch (error) {
         console.error("Error in webLinkWithPreview:", error);
@@ -140,72 +135,17 @@ async function webLinkWithPreview(event) {
     }
 }
 
-function tryOpenLink(url) {
-    console.log("Attempting to open URL:", url);
+function displayLink(url, event) {
+    // Show full URL in console with clear formatting
     console.log("======================================");
     console.log("OUTLOOK CALENDAR LINK:");
     console.log(url);
     console.log("======================================");
     console.log("Copy the above URL to open the event in Outlook Calendar");
-
-    // Try to copy to clipboard (with better error handling)
-    try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(url).then(() => {
-                console.log("✓ URL copied to clipboard successfully");
-            }).catch((err) => {
-                console.log("Failed to copy to clipboard (document may not be focused):", err.message);
-                console.log("You can manually copy the URL from the console above");
-            });
-        } else {
-            console.log("Clipboard API not available - please copy the URL manually from above");
-        }
-    } catch (error) {
-        console.log("Clipboard access failed:", error.message);
-        console.log("You can manually copy the URL from the console above");
-    }
-
-    try {
-        // Method 1: Try window.open
-        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-        if (newWindow) {
-            console.log("Successfully opened new window");
-            return true;
-        } else {
-            console.log("window.open was blocked, trying alternative methods");
-        }
-    } catch (error) {
-        console.error("window.open failed:", error);
-    }
-
-    try {
-        // Method 2: Try creating a temporary link and clicking it
-        const tempLink = document.createElement('a');
-        tempLink.href = url;
-        tempLink.target = '_blank';
-        tempLink.rel = 'noopener noreferrer';
-        document.body.appendChild(tempLink);
-        tempLink.click();
-        document.body.removeChild(tempLink);
-        console.log("Used temporary link method");
-        return true;
-    } catch (error) {
-        console.error("Temporary link method failed:", error);
-    }
-
-    try {
-        // Method 3: Try location.assign on a new window
-        const newWindow = window.open('', '_blank');
-        if (newWindow) {
-            newWindow.location.assign(url);
-            console.log("Used location.assign method");
-            return true;
-        }
-    } catch (error) {
-        console.error("location.assign method failed:", error);
-    }
-
-    return false;
+    
+    // Show truncated URL in notification for easy access
+    const shortUrl = url.length > 100 ? url.substring(0, 97) + "..." : url;
+    statusUpdate("icon16", `Calendar link: ${shortUrl}`, event);
 }
 
 function parseICSContent(ics) {
