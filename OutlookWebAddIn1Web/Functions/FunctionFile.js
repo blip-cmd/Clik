@@ -13,7 +13,7 @@ function statusUpdate(icon, text, event) {
     type: Office.MailboxEnums.ItemNotificationMessageType.InformationalMessage,
     icon: icon,
     message: text,
-    persistent: false
+    persistent: true  // Make the notification persistent so user can copy the link
   };
   Office.context.mailbox.item.notificationMessages.replaceAsync("status", details, (asyncResult) => {
     // Don't call event.completed() here - only call it in the main function
