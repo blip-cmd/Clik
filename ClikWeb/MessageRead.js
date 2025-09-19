@@ -21,7 +21,7 @@
     try {
       // Show loading state
       $('#loading-section').show();
-      $('#calendar-section').hide();
+      $('#main-content').hide(); // Hide main content
       $('#error-section').hide();
       
       showNotification("Processing", "Generating calendar link...");
@@ -61,6 +61,7 @@
     // Hide loading, show calendar section
     $('#loading-section').hide();
     $('#error-section').hide();
+    $('#main-content').show(); // Show the main content container
     $('#calendar-section').show();
     
     // Set the link text and href
@@ -78,7 +79,7 @@
   // Show error state
   function showError(message) {
     $('#loading-section').hide();
-    $('#calendar-section').hide();
+    $('#main-content').hide(); // Hide main content container
     $('#error-section').show();
     $('#error-message').text(message);
   }
