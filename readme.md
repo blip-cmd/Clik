@@ -6,7 +6,7 @@ A smart Outlook add-in that converts emails to calendar events using AI-powered 
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/your-username/Clik.git
+   git clone https://github.com/blip-cmd/Clik.git
    ```
 
 2. Install dev certificate with [mkcert](https://github.com/FiloSottile/mkcert):
@@ -21,7 +21,7 @@ A smart Outlook add-in that converts emails to calendar events using AI-powered 
 
 4. Sideload the add-in in Outlook:
    - Open Outlook Web or Desktop
-   - Go to **Settings > Manage Add-ins**
+   - Go to **Settings > Manage Add-ins** ([link](https://aka.ms/olksideload))
    - Upload the manifest file from `/ClikManifest/`
 
 ## ✅ Features
@@ -60,7 +60,6 @@ Clik/
 5. **Alternative**: Use "Download .ics" for traditional calendar file download
 
 ```
-
 ## 📌 Notes
 
 - Tested on Outlook Web
@@ -70,5 +69,3 @@ Clik/
 ---
 
 Built with ❤️ by Ryan — optimizing workflows, one click at a time.
-
-Link to Outlook hidden Add-in : 
