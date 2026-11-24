@@ -347,7 +347,7 @@
                 '"""'
             ].join('\n');
 
-            const apiKey = "AIzaSyD20df_EXFV7qIaZi-wHk-9IWNPhXyQB30";
+            const apiKey = ""; // set your own Gemini API key
 
             console.log("Making API call to Gemini...");
             
